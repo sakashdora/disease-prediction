@@ -48,10 +48,12 @@ def diabetes():
     prediction = None
     if request.method == 'POST':
         try:
-            features = [float(request.form[f]) for f in [
-                'pregnancies', 'glucose', 'blood_pressure', 'skin_thickness',
-                'insulin', 'bmi', 'dpf', 'age'
-            ]]
+            gender = request.form.get('gender', 'male')
+            pregnancies = float(request.form.get('pregnancies', 0))
+            features = [pregnancies, float(request.form['glucose']),
+                float(request.form['blood_pressure']), float(request.form['skin_thickness']),
+                float(request.form['insulin']), float(request.form['bmi']),
+                float(request.form['dpf']), float(request.form['age'])]
             model, scaler = load_model('diabetes')
             scaled = scaler.transform([features])
             result = model.predict(scaled)[0]
